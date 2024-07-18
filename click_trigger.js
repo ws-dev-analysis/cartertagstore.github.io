@@ -39,3 +39,34 @@ elements.forEach(function(element) {
     }
   });
 });
+
+
+function getAttributes() {
+  // 현재 클릭된 요소
+  var element = {{Click Target}};
+
+  // 결과를 저장할 객체
+  var attributes = {};
+
+  // data-screen-info를 가진 요소를 찾을 때까지 타고 올라감
+  while (element && !element.hasAttribute('data-screen-info')) {
+    // 모든 attribute를 확인
+    Array.from(element.attributes).forEach(function(attr) {
+      if (attr.name.startsWith('data-ep') || attr.name.startsWith('data-section')) {
+        attributes[attr.name] = attr.value;
+      }
+    });
+    element = element.parentElement;
+  }
+
+  // data-screen-info를 가진 요소의 attribute도 확인
+  if (element && element.hasAttribute('data-screen-info')) {
+    Array.from(element.attributes).forEach(function(attr) {
+      if (attr.name.startsWith('data-ep') || attr.name.startsWith('data-section')) {
+        attributes[attr.name] = attr.value;
+      }
+    });
+  }
+
+  return attributes;
+}
