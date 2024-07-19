@@ -10,7 +10,7 @@ elements.forEach(function(element) {
   element.addEventListener('click', function(ev) {
 
     // 클릭된 요소에서 가장 가까운 특정 클래스를 가진 요소 찾기
-    var closestElement = ev.target.closest('.page-click, .cts-click, .popup-click');
+    var closestElement = ev.target.closest('.ga-page-click, .ga-cts-click, .ga-popup-click');
 
     if (closestElement) {
       // 콘솔에 가까운 요소 출력
@@ -28,7 +28,7 @@ elements.forEach(function(element) {
       console.log(attrObj);
 
       // 클래스 여부와 속성 출력
-      var classesToCheck = ['page-click', 'cts-click', 'popup-click'];
+      var classesToCheck = ['ga-page-click', 'ga-cts-click', 'ga-popup-click'];
       var classPresence = {};
 
       classesToCheck.forEach(function(cls) {
