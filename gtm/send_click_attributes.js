@@ -34,7 +34,7 @@
     var section = dataSections.reverse().join('-');
 
     var keyMapping = {
-        // data-gtm-page - data-gtm-body key
+        // data-gtm-page - data-gtm-body
         gtm_title: "page_title",   
         gtm_id: "ep_cd57_screenid", 
         gtm_frame: "ep_cd11_native_yn", // "SPA" 고정값
@@ -48,10 +48,10 @@
         gtm_revol_term: "ep_cd20_rvo_egm_stt_te",
         gtm_prod_funnel_name: "ep_cd48_pd_apply_nm",
         
-        // data-gtm-section - data-gtm-body key
+        // data-gtm-section - data-gtm-body
         gtm_section: "ep_event_area",
 
-        //data-gtm-event - data-gtm-body key
+        //data-gtm-click & data-gtm-visiblity - data-gtm-body
         gtm_event_name: "event_name",
         gtm_text: "gtm_text",
         gtm_frame: "ep_cd11_native_yn",
