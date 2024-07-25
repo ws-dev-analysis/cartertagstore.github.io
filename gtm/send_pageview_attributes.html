@@ -20,35 +20,12 @@
             return null;
         }
     
-    
-        // Get section names
-        function getSectionNames(element) {
-            var sections = [];
-            var currentElement = element.closest('[data-gtm-click]');
-            while (currentElement) {
-                if (currentElement.dataset.gtmPage) {
-                    break;
-                }
-                var section = currentElement.dataset.gtmSection;
-                if (section) {
-                    sections.push(section);
-                }
-                currentElement = currentElement.parentElement;
-            }
-            return sections.reverse().join('-');
-        }
-    
-        var section = getSectionNames(element);
-    
-        // Combine data
-        var combinedData = Object.assign({}, pageData, clickData);
-    
         // Push to dataLayer
-        console.log('Click')
-        console.log(combinedData);
-        dataLayer.push(combinedData);
+        console.log('Pageview')
+        console.log(pageData);
+        dataLayer.push(pageData);
     
-        return combinedData;
+        return pageData;
       
     })();
     
