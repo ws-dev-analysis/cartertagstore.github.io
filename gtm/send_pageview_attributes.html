@@ -12,6 +12,7 @@
             var pageData = pageElement.dataset.gtmBody ? JSON.parse(pageElement.dataset.gtmBody) : null;
             if (pageData) {
                 pageData.event = "screen_view"
+                return pageData
             }
         }
     

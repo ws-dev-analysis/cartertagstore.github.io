@@ -26,7 +26,7 @@
         var visibilityData = visibilityElement.dataset.gtmBody ? JSON.parse(visibilityElement.dataset.gtmBody) : null;
         if (visibilityData && visibilityData.gtm_event) {
             visibilityData.gtm_event += '_view';
-            //visibilityData.event = visibilityData.gtm_event_name
+            visibilityData.event = visibilityData.gtm_event
         }
         return visibilityData;
     }
