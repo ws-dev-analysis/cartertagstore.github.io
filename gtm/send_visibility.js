@@ -1,4 +1,6 @@
+
 (function (element) {
+    console.log(element)
     var dataSections = [];
     // get pageInfo
     var pageElement = document.querySelector('[data-gtm-page]');
@@ -7,25 +9,25 @@
     }
     var pageData =  pageElement.dataset.gtmBody ? JSON.parse(pageElement.dataset.gtmBody) : null;
 
-    // click event가 실행된 element
-    var clickElement = element.closest('[data-gtm-click]');
-    if (!clickElement) {
+ 
+    if (!pageData) {
         return null;
     }
-    var clickData = clickElement.dataset.gtmBody ? JSON.parse(clickElement.dataset.gtmBody) : null;
-    if (!clickData) {
-        return null;
-    }
-  
-     // impression event가 실행된 element
+
+
+    // impression event가 실행된 element
     var visibilityElement = element.closest('[data-gtm-visibility]');
     if (!visibilityElement) {
         return null;
     }
     var visibilityData = visibilityElement.dataset.gtmBody ? JSON.parse(visibilityElement.dataset.gtmBody) : null;
+
     if (!visibilityData) {
         return null;
     }
+    
+    // visibilityData 에서 event_name 찾고 그 값 뒤에 _view 붙이기
+
 
     // GET SECTION NAME
     var currentElement = visibilityElement;
@@ -42,7 +44,7 @@
     }
 
     var section = dataSections.reverse().join('-');
-
+  
     var keyMapping = {
         // data-gtm-page - data-gtm-body
         gtm_title: "page_title",   
@@ -83,12 +85,23 @@
         gtm_cts_sub_id: "ep_cd79_sub_cts_id",
         gtm_vertical_index: "ep_vertical_index",
         gtm_horizontal_index: "ep_horizontal_index",
-        gtm_extra_index: "extra_index"
+        gtm_extra_index: "extra_index",
+
+        //gtm 정제 값
+        gtm_depth1: 'ep_cd15_page_depth1',
+        gtm_depth2: 'ep_cd16_page_depth2',
+        gtm_depth3: 'ep_cd52_page_depth3',
+
+        // gtm_depth 갯수에 따라 유동적으로 
+        gtm_depth4: '', // ep_page_depth4 
+        gtm_depth5: '', // ep_page_depth5 ..
+
     };
 
     var output = {};
     // 합친 데이터를 변수에 저장
     var combinedData = Object.assign({}, pageData, clickData, visibilityData);
+
     // combinedData를 사용하여 output 객체 생성
     for (var key in combinedData) {
         if (keyMapping[key]) {
@@ -99,5 +112,5 @@
     dataLayer.push(output);
 
     return output;
-})({{Click Element}})
 
+})({{Click Element}})
