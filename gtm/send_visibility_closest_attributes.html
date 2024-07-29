@@ -27,11 +27,9 @@
 
     // section
     var sectionElement = element.closest('[data-gtm-section]');
-    var section;
     if (sectionElement) {
       var sectionData = sectionElement.dataset.gtmBody ? JSON.parse(sectionElement.dataset.gtmBody) : null;
     }
-
     // visibility
     var visibilityElement = element.closest('[data-gtm-visibility]');
 
@@ -46,7 +44,7 @@
       return
     }
 
-    var visibilityData = eventElement.dataset.gtmBody ? JSON.parse(eventElement.dataset.gtmBody) : null;
+    var visibilityData = visibilityElement.dataset.gtmBody ? JSON.parse(visibilityElement.dataset.gtmBody) : null;
 
     // visibilityElement > gtmBody 없으면 에러 푸시
     if (!visibilityData) {
@@ -57,6 +55,9 @@
         url: document.location.href
       });
       return
+    } else {
+      visibilityData.event += '_view';
+      visibilityData.event_name = event;
     }
 
     // Combine data

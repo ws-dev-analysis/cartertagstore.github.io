@@ -1,0 +1,64 @@
+<script>
+  (function() {
+    // Helper function to push error to dataLayer
+    function pushError(event, element) {
+      window.dataLayer.push({
+        event: event,
+        event_name: event,
+        element: element || 'null',
+        url: document.location.href
+      });
+    }
+
+    // Helper function to get and parse dataset gtmBody
+    function getGtmBodyData(element, errorEvent) {
+      if (!element) {
+        pushError(errorEvent, element);
+        return null;
+      }
+      var data = element.dataset.gtmBody ? JSON.parse(element.dataset.gtmBody) : null;
+      if (!data) {
+        pushError(errorEvent, element);
+      }
+      return data;
+    }
+
+    // Main function to handle different events
+    function handleEvent(element, eventType, additionalData, modifyEvent) {
+      // page
+      var pageElement = document.querySelector('[data-gtm-page]');
+      var pageData = getGtmBodyData(pageElement, 'error_pageElement_null');
+      if (!pageData) return;
+
+      // section
+      var sectionElement = element.closest('[data-gtm-section]');
+      var sectionData = getGtmBodyData(sectionElement, 'error_sectionData_null');
+
+      // visibility or click
+      var specificElement = element.closest(`[data-gtm-${eventType}]`);
+      var specificData = getGtmBodyData(specificElement, `error_${eventType}Element_null`);
+      if (!specificData) return;
+
+      if (modifyEvent) {
+        specificData.event += `_${eventType}`;
+        specificData.event_name = 'event';
+      }
+
+      // Combine data
+      var combinedData = Object.assign({}, pageData, sectionData, specificData, additionalData);
+
+      // Push to dataLayer
+      console.log(eventType);
+      console.log(combinedData);
+      dataLayer.push(combinedData);
+
+      return combinedData;
+    }
+
+    window._gtm = {
+      pushError: pushError,
+      getGtmBodyData: getGtmBodyData,
+      handleEvent: handleEvent
+    };
+  })();
+</script>

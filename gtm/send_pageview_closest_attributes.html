@@ -26,7 +26,10 @@
     }
 
     // Combine data
-    var combinedData = Object.assign({}, pageData, sectionData, clickData);
+    var combinedData = Object.assign({}, pageData, {
+      event: 'mounted_screenview',
+      event_name: 'screen_view'
+    });
 
     // Push to dataLayer
     console.log('ScreenView')

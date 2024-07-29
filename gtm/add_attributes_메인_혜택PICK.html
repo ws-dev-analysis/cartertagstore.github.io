@@ -18,13 +18,16 @@ function cleanString(input) {
   if (page) {
       page.setAttribute('data-gtm-page', '');
       page.setAttribute('data-gtm-body', JSON.stringify({
-          gtm_page_title: "메인",
-          gtm_screen_id: "MAIN", 
-          gtm_frame: "SPA", 
+          page_title: "메인",
+          screen_id: "MAIN", 
+          frame: "SPA", 
       }));
   }
   if (section) {
-      section.setAttribute('data-gtm-section', 혜택PICK.textContent);
+      section.setAttribute('data-gtm-section', JSON.stringify({
+          sectuib: 혜택PICK.textContent,
+          index: "5", 
+      }));
   }
 
   if (click_1) {
@@ -32,9 +35,9 @@ function cleanString(input) {
             var depth1 = el.querySelector('div .px-5').textContent;
             var text = el.querySelector('.justify-between').textContent;
             el.setAttribute('data-gtm-visibility', '')
-            el.setAttribute('data-gtm-body', JSON.stringify({ gtm_event: 'cts', gtm_category_depth1: cleanString(depth1)}))
+            el.setAttribute('data-gtm-body', JSON.stringify({ event: 'cts', category_depth1: cleanString(depth1)}))
             el.querySelector('.justify-between').setAttribute('data-gtm-click', '')
-            el.querySelector('.justify-between').setAttribute('data-gtm-body', JSON.stringify({ gtm_event: 'cts', gtm_category_depth1: cleanString(depth1) , gtm_text: cleanString(text)}))
+            el.querySelector('.justify-between').setAttribute('data-gtm-body', JSON.stringify({ event: 'cts', category_depth1: cleanString(depth1) , text: cleanString(text)}))
     })
   }
   
