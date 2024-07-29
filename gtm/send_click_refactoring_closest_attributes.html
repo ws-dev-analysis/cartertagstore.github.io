@@ -1,9 +1,5 @@
 <script>
-  (function() {
-    window.sendClickClosestAttributes = function(element) {
-      return window._gtm.handleEvent(element, 'click', {}, true);
-    };
-
-    sendClickClosestAttributes({{Click Element}});
-  })();
+  (function(element) {
+    return window._gtm.handleEvent(element, 'click', {}, true);
+  })({{Click Element}});
 </script>

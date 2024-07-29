@@ -1,24 +1,13 @@
 <script>
   (function() {
-    // Helper function to push error to dataLayer
-    function pushError(event, element) {
-      window.dataLayer.push({
-        event: event,
-        event_name: event,
-        element: element || 'null',
-        url: document.location.href
-      });
-    }
-
     // Helper function to get and parse dataset gtmBody
-    function getGtmBodyData(element, errorEvent) {
+    function getGtmBodyData(element) {
       if (!element) {
-        pushError(errorEvent, element);
         return null;
       }
-      var data = element.dataset.gtmBody ? JSON.parse(element.dataset.gtmBody) : null;
+      var data = element? JSON.parse(element.dataset.gtmBody) : null;
       if (!data) {
-        pushError(errorEvent, element);
+        return null;
       }
       return data;
     }
@@ -27,21 +16,26 @@
     function handleEvent(element, eventType, additionalData, modifyEvent) {
       // page
       var pageElement = document.querySelector('[data-gtm-page]');
-      var pageData = getGtmBodyData(pageElement, 'error_pageElement_null');
+      var pageData = getGtmBodyData(pageElement);
       if (!pageData) return;
 
       // section
       var sectionElement = element.closest('[data-gtm-section]');
-      var sectionData = getGtmBodyData(sectionElement, 'error_sectionData_null');
+      var sectionData = getGtmBodyData(sectionElement);
 
       // visibility or click
       var specificElement = element.closest('[data-gtm-' + eventType + ']');
-      var specificData = getGtmBodyData(specificElement, 'error_' + eventType + 'Element_null');
+      var specificData = getGtmBodyData(specificElement);
       if (!specificData) return;
 
       if (modifyEvent) {
-        specificData.event += '_' + eventType;
-        specificData.event_name = event;
+        if (eventType == 'visibility'){
+          specificData.event += '_' + 'view';
+          specificData.event_name = specificData.event;
+        } else {
+          specificData.event += '_' + eventType;
+          specificData.event_name = specificData.event;
+        }
       }
 
       // Combine data
@@ -56,7 +50,6 @@
     }
 
     window._gtm = {
-      pushError: pushError,
       getGtmBodyData: getGtmBodyData,
       handleEvent: handleEvent
     };

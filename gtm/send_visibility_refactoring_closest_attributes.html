@@ -1,9 +1,5 @@
 <script>
-  (function() {
-    window.sendVisibilityClosestAttributes = function(element) {
-      return window._gtm.handleEvent(element, 'view', {}, true);
-    };
-
-    sendVisibilityClosestAttributes({{Click Element}});
-  })();
+  (function(element) {
+     window._gtm.handleEvent(element, 'visibility', {}, true);
+  })({{Click Element}});
 </script>

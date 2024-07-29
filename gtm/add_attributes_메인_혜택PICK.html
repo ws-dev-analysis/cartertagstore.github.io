@@ -24,8 +24,9 @@ function cleanString(input) {
       }));
   }
   if (section) {
-      section.setAttribute('data-gtm-section', JSON.stringify({
-          sectuib: 혜택PICK.textContent,
+      section.setAttribute('data-gtm-section', '')
+      section.setAttribute('data-gtm-body', JSON.stringify({
+          section: 혜택PICK.textContent,
           index: "5", 
       }));
   }

@@ -1,22 +1,19 @@
 <script>
   (function() {
-    window.sendPageviewClosestAttributes = function() {
-      var pageElement = document.querySelector('[data-gtm-page]');
-      var pageData = window._gtm.getGtmBodyData(pageElement, 'error_pageElement_null');
-      if (!pageData) return;
+    var pageElement = document.querySelector('[data-gtm-page]');
+    var pageData = window._gtm.getGtmBodyData(pageElement);
+    if (!pageData) return;
 
-      var combinedData = Object.assign({}, pageData, {
-        event: 'mounted_screenview',
-        event_name: 'screen_view'
-      });
+    var combinedData = Object.assign({}, pageData, {
+      event: 'mounted_screenview',
+      event_name: 'screen_view'
+    });
 
-      console.log('ScreenView');
-      console.log(combinedData);
-      dataLayer.push(combinedData);
+    console.log('ScreenView');
+    console.log(combinedData);
+    dataLayer.push(combinedData);
 
-      return combinedData;
-    };
+    return combinedData;
 
-    sendPageviewClosestAttributes();
   })();
 </script>
