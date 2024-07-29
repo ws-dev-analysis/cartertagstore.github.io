@@ -35,13 +35,13 @@
       var sectionData = getGtmBodyData(sectionElement, 'error_sectionData_null');
 
       // visibility or click
-      var specificElement = element.closest(`[data-gtm-${eventType}]`);
-      var specificData = getGtmBodyData(specificElement, `error_${eventType}Element_null`);
+      var specificElement = element.closest('[data-gtm-' + eventType + ']');
+      var specificData = getGtmBodyData(specificElement, 'error_' + eventType + 'Element_null');
       if (!specificData) return;
 
       if (modifyEvent) {
-        specificData.event += `_${eventType}`;
-        specificData.event_name = 'event';
+        specificData.event += '_' + eventType;
+        specificData.event_name = event;
       }
 
       // Combine data
