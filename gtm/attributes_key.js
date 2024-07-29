@@ -36,9 +36,6 @@ var keyMapping = {
   gtm_revol_rate: "{{리볼빙 - 리볼빙 결제 비율}}",
   gtm_revol_term: "{{리볼빙 - 신청 기간}}",
   gtm_prod_funnel_name: "{{신청단계}}",
-  gtm_apply_metric_exit: "{{카드 신청 이탈}}", // 값은 integer 1 로 고정
-  gtm_popup_metric_click: "{{팝업 클릭}}", // 값은 integer 1 로 고정
-  gtm_popup_metric_exit: "{{팝업 닫기}}", // 값은 integer 1 로 고정
   gtm_cts_name: "{{LADM 컨텐츠명 - 부담없이 환승에서 만나요}}",
   gtm_gtm_cts_id: "{{LADM 컨텐츠ID - LTS0000063451}}",
   gtm_cts_sub_id: "{{LADM 서브컨텐츠ID - 0000063451ABC}}",
