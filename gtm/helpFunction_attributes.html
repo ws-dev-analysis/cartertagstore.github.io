@@ -12,11 +12,34 @@
       return data;
     }
 
+    // page-title depth parser
+    function parsePageTitle(title) {
+      var parts = title.split('>');
+      var depth = {};
+
+      // Assigning depths based on the given requirements
+      depth['1depth'] = parts[0] || '';
+      depth['2depth'] = parts[1] || '';
+      depth['3depth'] = parts[2] || '';
+      depth['4depth'] = parts[3] || '';
+
+      // Joining the remaining parts for 5depth and beyond
+      if (parts.length > 4) {
+        depth['5depth'] = parts.slice(4).join('>');
+      } else {
+        depth['5depth'] = '';
+      }
+
+      return depth;
+    }
+
     // Main function to handle different events
     function handleEvent(element, eventType) {
       // page
       var pageElement = document.querySelector('[data-gtm-page]');
       var pageData = getGtmBodyData(pageElement);
+      var depthData = parsePageTitle(pageData.page_title);
+      pageData = Object.assign({}, pageData, depthData);
       if (!pageData) return;
 
       // section
