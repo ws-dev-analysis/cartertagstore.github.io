@@ -21,14 +21,11 @@
 
       // section
       var sectionElement = element.closest('[data-gtm-section]');
-      var sectionData = getGtmBodyData(sectionElement);
+      var sectionData = getGtmBodyData(sectionElement) || {};
 
       // Add event to sectionData based on isPopup value
-      if (sectionData) {
-        var isPopup = sectionData.isPopup;
-        var eventSuffix = eventType === 'visibility' ? 'view' : eventType;
-        sectionData.event = (isPopup ? 'popup_' : 'cts_') + eventSuffix;
-      }
+      var isPopup = sectionData.isPopup;
+      var eventSuffix = eventType === 'visibility' ? 'view' : eventType;
 
       // visibility or click
       var eventElement = element.closest('[data-gtm-' + eventType + ']');
@@ -37,6 +34,7 @@
 
       // Combine data into the desired structure
       var combinedData = {
+        event: (isPopup ? 'popup_' : 'cts_') + eventSuffix,
         pageData: pageData,
         sectionData: sectionData,
         eventData: eventData
