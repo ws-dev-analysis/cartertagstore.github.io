@@ -5,7 +5,7 @@
       if (!element) {
         return null;
       }
-      var data = element? JSON.parse(element.dataset.gtmBody) : null;
+      var data = element ? JSON.parse(element.dataset.gtmBody) : null;
       if (!data) {
         return null;
       }
@@ -13,7 +13,7 @@
     }
 
     // Main function to handle different events
-    function handleEvent(element, eventType, additionalData, modifyEvent) {
+    function handleEvent(element, eventType) {
       // page
       var pageElement = document.querySelector('[data-gtm-page]');
       var pageData = getGtmBodyData(pageElement);
@@ -23,23 +23,24 @@
       var sectionElement = element.closest('[data-gtm-section]');
       var sectionData = getGtmBodyData(sectionElement);
 
-      // visibility or click
-      var specificElement = element.closest('[data-gtm-' + eventType + ']');
-      var specificData = getGtmBodyData(specificElement);
-      if (!specificData) return;
-
-      if (modifyEvent) {
-        if (eventType == 'visibility'){
-          specificData.event += '_' + 'view';
-          specificData.event_name = specificData.event;
-        } else {
-          specificData.event += '_' + eventType;
-          specificData.event_name = specificData.event;
-        }
+      // Add event to sectionData based on isPopup value
+      if (sectionData) {
+        var isPopup = sectionData.isPopup;
+        var eventSuffix = eventType === 'visibility' ? 'view' : eventType;
+        sectionData.event = (isPopup ? 'popup_' : 'cts_') + eventSuffix;
       }
 
-      // Combine data
-      var combinedData = Object.assign({}, pageData, sectionData, specificData, additionalData);
+      // visibility or click
+      var eventElement = element.closest('[data-gtm-' + eventType + ']');
+      var eventData = getGtmBodyData(eventElement);
+      if (!eventData) return;
+
+      // Combine data into the desired structure
+      var combinedData = {
+        pageData: pageData,
+        sectionData: sectionData,
+        eventData: eventData
+      };
 
       // Push to dataLayer
       console.log(eventType);
