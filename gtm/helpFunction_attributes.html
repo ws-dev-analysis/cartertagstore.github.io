@@ -71,9 +71,79 @@
       return combinedData;
     }
 
+    // 앱 구분자 설정
+    var browserInfo = navigator.userAgent;
+    var isGAAndroid = browserInfo.indexOf('GA_Android') > -1;
+    var isGAIOS = browserInfo.indexOf('GA_iOS_WK') > -1;
+    var commonGAData = {};
+
+    // 빈값 제거 함수
+    function removeEmptyElement(removeValue) {
+      var returnValue = {};
+      for (var key in removeValue) {
+        if (removeValue[key] !== '' && removeValue[key] !== null && removeValue[key] !== undefined) {
+          returnValue[key] = removeValue[key];
+        }
+      }
+      
+      return returnValue;
+    }
+
+    // 앱으로 데이터 전달 함수
+    function sendGAHybrid(object) {
+      try {
+        var GAData;
+        if (object.event_name == 'screen_view') {
+          GAData = Object.assign({}, object);
+        } else {
+          var eventParams = Object.assign({}, commonGAData.eventParams, object.eventParams);
+          var userProperties = Object.assign({}, commonGAData.userProperties, object.userProperties);
+          delete object.eventParams;
+          delete object.userProperties;
+          GAData = Object.assign({}, object, { screen_name: commonGAData.screen_name, location: commonGAData.location, eventParams: eventParams, userProperties: userProperties });
+        }
+
+        isGAAndroid ? window.lotteCardgascriptAndroid.GAHybrid(JSON.stringify(GAData)) : webkit.messageHandlers.lotteCardgascriptCallbackHandler.postMessage(JSON.stringify(GAData));
+      } catch (e) {
+        console.log('sendGAHybrid 함수 ERROR');
+        console.log(e.message);
+      }
+    }
+
+    // 스크린뷰 전송 함수
+    function sendGAPage(object) {
+      try {
+        object = removeEmptyElement(object);
+        commonGAData = Object.assign({}, object);
+        object.event_name = "screen_view"
+        sendGAHybrid(object);
+      } catch (e) {
+        console.log('sendGAPage 함수 ERROR');
+        console.log(e.message);
+      }
+    }
+
+    // 스크린뷰 외 이벤트 전송 함수
+    function sendGAEvent(object) {
+      try {
+        var GAData = removeEmptyElement(object);
+        sendGAHybrid(GAData);
+      } catch (e) {
+        console.log('sendGAEvent 함수 ERROR');
+        console.log(e.message);
+      }
+    }
+
+
     window._gtm = {
       getGtmBodyData: getGtmBodyData,
-      handleEvent: handleEvent
+      parsePageTitle: parsePageTitle,
+      handleEvent: handleEvent,
+      removeEmptyElement: removeEmptyElement,
+      sendGAHybrid: sendGAHybrid,
+      sendGAPage: sendGAPage,
+      sendGAEvent: sendGAEvent
+      
     };
   })();
 </script>
